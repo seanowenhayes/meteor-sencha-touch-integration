@@ -11,3 +11,7 @@ Install meteor - `$ curl https://install.meteor.com/ | sh`
 
 Install meteorite - `$ npm install -g meteorite` - not strictly necessary but it is my setup.
 
+## Running the application
+
+From the project root execute `$ mrt` to start meteor on port 3000.
+
