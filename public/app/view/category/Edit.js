@@ -14,11 +14,27 @@ Ext.define('STI.view.category.Edit', {
                         name: 'name'
                     },
                     {
-                        xtype: 'button',
-                        text: 'save',
-                        ui: 'action',
-                        itemId: 'categorySaveButton'
+                        layout: 'hbox',
+                        defaults: {
+                            flex: 1,
+                            margin: 5
+                        },
+                        items: [
+                            {
+                                xtype: 'button',
+                                text: 'save',
+                                ui: 'confirm-round',
+                                itemId: 'categorySaveButton'
+                            },
+                            {
+                                xtype: 'button',
+                                text: 'delete',
+                                ui: 'decline-round',
+                                itemId: 'categoryDeleteButton'
+                            }
+                        ]
                     }
+
                 ]
             }
         ]

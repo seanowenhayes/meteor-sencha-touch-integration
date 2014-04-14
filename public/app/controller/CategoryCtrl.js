@@ -9,6 +9,7 @@ Ext.define('STI.controller.CategoryCtrl', {
             createCategoryButton: 'categorycreate #createCategoryButton',
             categoryList: 'categorylist',
             categorySaveButton: 'categoryedit #categorySaveButton',
+            categoryDeleteButton: 'categoryedit #categoryDeleteButton',
             categoryEdit: 'categoryedit'
         },
         control: {
@@ -20,9 +21,22 @@ Ext.define('STI.controller.CategoryCtrl', {
             },
             categorySaveButton: {
                 tap: 'saveCategory'
+            },
+            categoryDeleteButton: {
+                tap: 'deleteCategory'
             }
         },
         stores: ['Categories']
+    },
+
+    deleteCategory: function () {
+        var me = this,
+            nav = me.getMain(),
+            categoryEdit = me.getCategoryEdit(),
+            categoryStore = Ext.getStore('CategoryStore'),
+            record = categoryEdit.getRecord();
+        categoryStore.remove(record);
+        nav.pop();
     },
 
     createCategory: function (button) {
