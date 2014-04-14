@@ -14,13 +14,16 @@ Ext.define('STI.proxy.MeteorProxy', {
     create: function (operation, callback, scope) {
         var records = operation.getRecords(),
             collection = this.getCollection(),
-            data;
+            data,
+            allocatedId;
 
         operation.setStarted();
 
         Ext.Array.each(records, function (record) {
             data = record.getData(true);
-            collection.insert(data);
+            delete data._id;
+            allocatedId = collection.insert(data);
+            record.setId(allocatedId);
         });
 
         operation.setCompleted();

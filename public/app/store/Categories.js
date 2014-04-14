@@ -5,6 +5,7 @@ Ext.define('STI.store.Categories', {
     config: {
         model: 'STI.model.Category',
         storeId: 'CategoryStore',
+        autoSync: true,
         autoLoad: true,
         proxy: {
             type: 'meteor',
