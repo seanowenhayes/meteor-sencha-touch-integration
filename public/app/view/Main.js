@@ -1,23 +1,21 @@
 Ext.define('STI.view.Main', {
-    extend: 'Ext.tab.Panel',
+    extend: 'Ext.navigation.View',
     xtype: 'main',
     requires: [
         'STI.view.category.List',
         'STI.view.category.Create'
     ],
     config: {
-        tabBarPosition: 'bottom',
-
         items: [
             {
                 title: 'List',
                 iconCls: 'home',
                 xtype: 'categorylist',
-                layout: 'fit'
-            },
-            {
-                xtype: 'categorycreate',
-                docked: 'top'
+                layout: 'fit',
+                items: [{
+                    xtype: 'categorycreate',
+                    docked: 'top'
+                }]
             }
         ]
     }
