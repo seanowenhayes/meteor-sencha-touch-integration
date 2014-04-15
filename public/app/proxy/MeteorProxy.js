@@ -41,7 +41,8 @@ Ext.define('STI.proxy.MeteorProxy', {
             params = operation.getParams() || {},
             collection = this.getCollection(),
             id = params[idProperty],
-            sorters = operation.getSorters(),
+            senchaSorters = operation.getSorters(),
+            meteorSorters,
             filters = operation.getFilters(),
             start = operation.getStart(),
             limit = operation.getLimit(),
@@ -56,7 +57,9 @@ Ext.define('STI.proxy.MeteorProxy', {
             }
         } else {
             // TODO apply sorters, filters, start and limit.
-            records = collection.find().fetch();
+            meteorSorters = this.senchaSortersToMeteorSorters(senchaSorters);
+
+            records = collection.find({}, meteorSorters).fetch();
             operation.setSuccessful();
         }
 
@@ -113,5 +116,24 @@ Ext.define('STI.proxy.MeteorProxy', {
         if (typeof callback === 'function') {
             callback.call(scope || this, operation);
         }
+    },
+
+    /**
+     * private
+     * @param sorters [Sorter]
+     * @return sorters
+     */
+    senchaSortersToMeteorSorters: function (sorters) {
+        var convertedSorters = {sort: []},
+            sort;
+        if (sorters && sorters.length) {
+            sort = sorters.map(function (sorter) {
+                var direction = sorter.getDirection() || 'asc',
+                    field = sorter.getProperty();
+                return direction && field ? [field, direction] : false;
+            });
+            convertedSorters.sort = sort;
+        }
+        return convertedSorters;
     }
 });

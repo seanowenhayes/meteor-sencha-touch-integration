@@ -2,6 +2,7 @@
 Ext.define('STI.view.category.Edit', {
     extend: 'Ext.form.Panel',
     xtype: 'categoryedit',
+    requires: ['Ext.form.FieldSet'],
     config: {
         items: [
             {

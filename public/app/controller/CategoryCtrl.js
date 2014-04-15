@@ -24,9 +24,24 @@ Ext.define('STI.controller.CategoryCtrl', {
             },
             categoryDeleteButton: {
                 tap: 'deleteCategory'
+            },
+            createCategoryTextField: {
+                keyup: 'createCategoryOnEnter'
             }
         },
         stores: ['Categories']
+    },
+
+    /**
+     * Trigger the same action for pressing enter in the text field as for pressing the add button.
+     * @param textfield
+     * @param event
+     */
+    createCategoryOnEnter: function (textfield, event) {
+        var keycode = event.browserEvent.keyCode;
+        if (keycode === 13) {
+            this.createCategory();
+        }
     },
 
     deleteCategory: function () {
@@ -39,13 +54,14 @@ Ext.define('STI.controller.CategoryCtrl', {
         nav.pop();
     },
 
-    createCategory: function (button) {
+    createCategory: function () {
         var me = this,
             textField = me.getCreateCategoryTextField(),
             name = textField.getValue(),
             categoryStore = Ext.getStore('CategoryStore');
 
         categoryStore.add({name: name});
+        textField.setValue('');
 
     },
 

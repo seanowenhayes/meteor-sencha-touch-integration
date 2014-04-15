@@ -7,6 +7,12 @@ Ext.define('STI.store.Categories', {
         storeId: 'CategoryStore',
         autoSync: true,
         autoLoad: true,
+
+        // Let meteor do the grouping filtering and sorting.
+        remoteGroup: true,
+        remoteFilter: true,
+        remoteSort: true,
+        sorters: ['name'],
         proxy: {
             type: 'meteor',
             collection: Categories
