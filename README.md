@@ -16,9 +16,7 @@ Install meteorite - `$ npm install -g meteorite` - not strictly necessary but it
 From the project root execute `$ mrt` to start meteor on port 3000.
 
 ## TODO
-Implement sorting.
 Implement filtering.
-Implement start and limit.
 
 One to many relationships.
 
