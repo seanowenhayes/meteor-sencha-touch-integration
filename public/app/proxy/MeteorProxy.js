@@ -8,7 +8,9 @@ Ext.define('STI.proxy.MeteorProxy', {
         /**
          * The meteor collection to use for storage.
          */
-        collection: null
+        collection: null,
+
+        cursor: null
     },
 
     create: function (operation, callback, scope) {
@@ -46,7 +48,9 @@ Ext.define('STI.proxy.MeteorProxy', {
             filters = operation.getFilters(),
             start = operation.getStart(),
             limit = operation.getLimit(),
-            record;
+            options = {},
+            record,
+            cursor;
 
         //read a single record
         if (id !== undefined) {
@@ -56,10 +60,13 @@ Ext.define('STI.proxy.MeteorProxy', {
                 operation.setSuccessful();
             }
         } else {
-            // TODO apply sorters, filters, start and limit.
             meteorSorters = this.senchaSortersToMeteorSorters(senchaSorters);
-
-            records = collection.find({}, meteorSorters).fetch();
+            options.sort = meteorSorters;
+            options.limit = limit;
+            options.skip = start;
+            cursor = collection.find({}, options);
+            this.setCursor(cursor);
+            records = cursor.fetch();
             operation.setSuccessful();
         }
 
@@ -124,16 +131,38 @@ Ext.define('STI.proxy.MeteorProxy', {
      * @return sorters
      */
     senchaSortersToMeteorSorters: function (sorters) {
-        var convertedSorters = {sort: []},
-            sort;
+        var convertedSorters = [];
         if (sorters && sorters.length) {
-            sort = sorters.map(function (sorter) {
+            convertedSorters = sorters.map(function (sorter) {
                 var direction = sorter.getDirection() || 'asc',
                     field = sorter.getProperty();
                 return direction && field ? [field, direction] : false;
             });
-            convertedSorters.sort = sort;
         }
         return convertedSorters;
+    },
+
+    senchaFilterToMeteorFilter: function (senchaFilters) {
+        var meteorFilters = {};
+        return meteorFilters;
+    },
+
+    /**
+     * Listen to changes on the cursor.
+     * @param newCursor
+     * @param oldCursor
+     */
+    updateCursor: function (newCursor, oldCursor) {
+        console.log('updaing cursor');
+        if (newCursor) {
+            // listen
+            console.log('got a new cursor');
+//            newCursor.observeChanges({
+//                added: console.log
+//            });
+        }
+        if (oldCursor) {
+            //cleanup
+        }
     }
 });

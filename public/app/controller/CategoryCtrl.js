@@ -62,7 +62,7 @@ Ext.define('STI.controller.CategoryCtrl', {
 
         categoryStore.add({name: name});
         textField.setValue('');
-
+        textField.focus();
     },
 
     openCategory: function (list, index, target, record) {
