@@ -6,6 +6,8 @@ Ext.define('STI.model.Category', {
         fields: [
             { name: 'name', type: 'string' }
         ],
+
+        // Make sure to use MongoDb _id property.
         idProperty: '_id'
     }
 });
