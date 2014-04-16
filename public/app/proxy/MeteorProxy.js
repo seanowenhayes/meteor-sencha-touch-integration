@@ -45,6 +45,7 @@ Ext.define('STI.proxy.MeteorProxy', {
             id = params[idProperty],
             senchaSorters = operation.getSorters(),
             meteorSorters,
+            meteorFilters,
             filters = operation.getFilters(),
             start = operation.getStart(),
             limit = operation.getLimit(),
@@ -61,10 +62,11 @@ Ext.define('STI.proxy.MeteorProxy', {
             }
         } else {
             meteorSorters = this.senchaSortersToMeteorSorters(senchaSorters);
+            meteorFilters = this.senchaFilterToMeteorFilter(filters);
             options.sort = meteorSorters;
             options.limit = limit;
             options.skip = start;
-            cursor = collection.find({}, options);
+            cursor = collection.find(meteorFilters, options);
             this.setCursor(cursor);
             records = cursor.fetch();
             operation.setSuccessful();
@@ -143,7 +145,15 @@ Ext.define('STI.proxy.MeteorProxy', {
     },
 
     senchaFilterToMeteorFilter: function (senchaFilters) {
+        console.log(senchaFilters);
         var meteorFilters = {};
+        if (senchaFilters && senchaFilters.length) {
+            Ext.Array.each(senchaFilters, function (filter) {
+                var property = filter.getProperty(),
+                    value = filter.getValue();
+                meteorFilters[property] = value;
+            });
+        }
         return meteorFilters;
     },
 
@@ -153,10 +163,9 @@ Ext.define('STI.proxy.MeteorProxy', {
      * @param oldCursor
      */
     updateCursor: function (newCursor, oldCursor) {
-        console.log('updaing cursor');
         if (newCursor) {
+            // TODO listen for changes and push them into the store.
             // listen
-            console.log('got a new cursor');
 //            newCursor.observeChanges({
 //                added: console.log
 //            });

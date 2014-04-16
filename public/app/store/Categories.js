@@ -13,6 +13,10 @@ Ext.define('STI.store.Categories', {
         remoteFilter: true,
         remoteSort: true,
         sorters: ['name'],
+        filters: [{
+            property: 'name',
+            value: 'a'
+        }],
         proxy: {
             type: 'meteor',
             collection: Categories
